@@ -1,8 +1,21 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { Stack } from "expo-router";
+import { Stack, useNavigation, useRouter } from "expo-router";
+import { DrawerActions, StackActions } from "@react-navigation/native";
+import { Ionicons } from "@expo/vector-icons";
 
 const StackLayout = () => {
+  const navigation = useNavigation();
+  const router = useRouter();
+
+  const onHeaderLeftClick = (canGoBack: boolean) => {
+    if (canGoBack) {
+      router.back();
+      return;
+    }
+    navigation.dispatch(DrawerActions.toggleDrawer);
+  };
+
   return (
     /* Las config se las puede hacer a nivel de STACK o STACK.SCREEN */
     <Stack
@@ -12,6 +25,15 @@ const StackLayout = () => {
         contentStyle: {
           backgroundColor: "white",
         },
+        //* Añadiendo un componente para controlar la apertura del drawer desde la pantalla de Tabs + Stack
+        headerLeft: ({ tintColor, canGoBack }) => (
+          <Ionicons
+            name={canGoBack ? "arrow-back-outline" : "grid-outline"}
+            className="mr-5"
+            size={20}
+            onPress={() => onHeaderLeftClick(canGoBack ?? false)}
+          />
+        ),
       }}
     >
       <Stack.Screen

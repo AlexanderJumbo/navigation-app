@@ -1,13 +1,20 @@
 //* [id].tsx -> es una declaración de que este componente recibirá dinámicamente un id
 import { View, Text } from "react-native";
-import React from "react";
-import { Redirect, useLocalSearchParams } from "expo-router";
+import React, { useEffect } from "react";
+import { Redirect, useLocalSearchParams, useNavigation } from "expo-router";
 import { products } from "@/store/products.store";
 
 const ProductsScreen = () => {
   const { id } = useLocalSearchParams();
+  const navigation = useNavigation();
 
   const product = products.find((p) => p.id === id);
+
+  useEffect(() => {
+    navigation.setOptions({
+      title: product?.title ?? "Producto",
+    });
+  }, []);
 
   if (!product) {
     return <Redirect href="/" />;
