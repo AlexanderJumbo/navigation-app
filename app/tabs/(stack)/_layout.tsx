@@ -7,7 +7,7 @@ const StackLayout = () => {
     /* Las config se las puede hacer a nivel de STACK o STACK.SCREEN */
     <Stack
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
         headerShadowVisible: false,
         contentStyle: {
           backgroundColor: "white",
