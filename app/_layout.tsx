@@ -1,39 +1,29 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import React, { useEffect } from "react";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+import "./global.css";
+import { Slot, SplashScreen, Stack } from "expo-router";
+import { useFonts } from "expo-font";
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+//* Evita que el SplashScreen se quite si las fuentes aún no fueron cargadas
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+const RootLayout = () => {
+  const [fontsLoaded, error] = useFonts({
+    "WorkSans-Black": require("../assets/fonts/WorkSans-Black.ttf"),
+    "WorkSans-Light": require("../assets/fonts/WorkSans-Light.ttf"),
+    "WorkSans-Medium": require("../assets/fonts/WorkSans-Medium.ttf"),
   });
 
   useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
+    if (error) throw error;
+    //*Quitamos el SplashScreen una vez las fuentes hayan sido cargadas
+    if (fontsLoaded) SplashScreen.hideAsync();
+  }, [fontsLoaded, error]);
 
-  if (!loaded) {
-    return null;
-  }
+  if (!fontsLoaded && !error) return null;
 
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
-  );
-}
+  return <Slot />;
+  //return <Stack />;
+};
+
+export default RootLayout;
