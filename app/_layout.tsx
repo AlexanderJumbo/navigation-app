@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import "./global.css";
 import { Slot, SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import { Drawer } from "expo-router/drawer";
 
 //* Evita que el SplashScreen se quite si las fuentes aún no fueron cargadas
 SplashScreen.preventAutoHideAsync();

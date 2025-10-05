@@ -5,7 +5,8 @@ import { View, Text, SafeAreaView } from "react-native";
 const index = () => {
   // return <Redirect href="/(stack)/home" />;
   //*Habilitamos esta parte para que apunte a las tabs
-  return <Redirect href="/tabs" />;
+  // return <Redirect href="/tabs" />;
+  return <Redirect href="/drawer" />;
 
   /* return (
      <SafeAreaView>
